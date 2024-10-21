@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지</title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/myPage.js"></script>
+
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						function listCallback(result) {
+							let htmls = "";
+
+							if (result.members.length < 1) {
+								htmls += "등록된 유저가 없습니다.";
+							} else {
+
+								$(result.members)
+										.each(
+												function() {
+													htmls += "<h4>" + "이름: "
+															+ this.name
+															+ "</h4>";
+													htmls += "<h4>" + "아이디: "
+															+ this.id + "</h4>";
+													htmls += "<h4>" + "이메일: "
+															+ this.email
+															+ "</h4>";
+													htmls += "<h4>" + "생년월일: "
+															+ this.birthday
+															+ "</h4>";
+													htmls += "<h4>" + "전화번호: "
+															+ this.telno
+															+ "</h4>";
+													htmls += "<hr>";
+													htmls += "<button class='btn btn-primary btn-block' onclick=\"location.href='/myInfoUpdate.html'\">정보 수정</button>";
+
+												});
+							}
+
+							$('#member').append(htmls);
+
+							let htmlsM = "";
+
+							if (result.reviewboardM.length < 1) {
+								htmlsM += "등록된 시장 리뷰가 없습니다.";
+							} else {
+
+								$(result.reviewboardM).each(
+										function() {
+
+											htmlsM += '<div>';
+											htmlsM += "<p>" + this.review_id + "</p>";
+											htmlsM += "<h4>" + this.name + "</h4>";
+											htmlsM += "<p>" + this.content + "</p>";
+											htmlsM += "<p>" + this.create_date + "</p>";
+											htmlsM += "<p>" + this.market_name + "</p>";
+											htmlsM += '<button type="button" onclick="location.href=\'/reviewUpdate.html?review_id=' + this.review_id + '\'">리뷰 수정</button>';
+											htmlsM += '</div>';
+											
+										});
+
+							}
+
+							$('#marketReview').append(htmlsM);
+
+							let htmlsT = "";
+
+							if (result.reviewboardT.length < 1) {
+								htmlsT += "등록된 관광지 리뷰가 없습니다.";
+							} else {
+
+								$(result.reviewboardT).each(
+										function() {
+
+											htmlsT += '<div>';
+											htmlsT += "<p>" + this.review_id + "</p>";
+											htmlsT += "<h4>" + this.name + "</h4>";
+											htmlsT += "<p>" + this.content + "</p>";
+											htmlsT += "<p>" + this.create_date + "</p>";
+											htmlsT += "<p>" + this.tour_name + "</p>";
+											htmlsT += '<button type="button" onclick="location.href=\'/reviewUpdate.html?review_id=' + this.review_id + '\'">리뷰 수정</button>';
+											htmlsT += '</div>';
+										});
+
+							}
+
+							$('#tourReview').append(htmlsT);
+
+						}
+
+						let myPage = myPageService();
+
+						myPage.myPageList(listCallback);
+
+					});
+</script>
+<style>
+body {
+	background-color: #f0f2f5;
+}
+
+.myinfo-container {
+	margin-top: 100px;
+}
+
+.profile-header {
+	background-color: #007bff;
+	color: white;
+	padding: 20px;
+	border-radius: 8px 8px 0px 0px;
+}
+
+.profile-header2 {
+	background-color: #007bff;
+	color: white;
+	padding: 20px;
+	border-radius: 8px 8px 8px 8px;
+}
+
+.profile-info {
+	background-color: white;
+	border-radius: 0px 0px 8px 8px;
+	padding: 20px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info2 {
+	background-color: white;
+	border-radius: 8px 8px 8px 8px;
+	padding: 20px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post {
+	border-bottom: 1px solid #e9ecef;
+	padding: 10px 0;
+}
+</style>
+</head>
+<body>
+	<div class="container myinfo-container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="profile-header text-center">
+					<h2>내 정보</h2>
+				</div>
+				<div id="member" class="profile-info"></div>
+				<div class="profile-info2 mt-4">
+					<div id="marketReview" class="post">
+						<h2 class="profile-header2 text-center">시장 리뷰</h2>
+					</div>
+				</div>
+				<div class="profile-info2 mt-4">
+					<div id="tourReview" class="post">
+						<h2 class="profile-header2 text-center">관광지 리뷰</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

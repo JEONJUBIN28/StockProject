@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시글</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/notice.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		let searchParams = new URLSearchParams(window.location.search)
+
+		let notice_id = searchParams.get('notice_id')
+
+		function getNotice(notice) {
+			$('#title').append(notice.title);
+			$('#notice_id').append(notice.notice_id);
+			$('#name').append(notice.name);
+			$('#create_date').append(notice.create_date);
+		}
+
+		let notice = noticeService();
+
+		notice.getNotice(notice_id, getNotice);
+
+		$(document).on("click", "#deleteNotice", function(){
+			notice.del(notice_id);
+			window.location.href="/noticeBoardList.html";
+		});
+		
+	});
+</script>
+</head>
+<body>
+	<h1 id="title"></h1>
+	<p id="notice_id" type="hidden"></p>
+	<p id="name"></p>
+	<p id="create_date"></p>
+	<button type="button" onclick="location.href='noticeUpdate.html'">게시글 수정</button>
+	<button id="deleteNotice" type="button">게시글 삭제</button>
+</body>
+</html>

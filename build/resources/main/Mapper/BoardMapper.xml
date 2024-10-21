@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.seongsu.stockproject.Mapper.BoardMapper">
+
+	<resultMap id="noticeResultMap" type="org.seongsu.stockproject.VO.noticeboardVO">
+		<id property="notice_id" column="notice_id" />
+		<result property="name" column="name" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="create_date" column="create_date" />
+		<result property="hit" column="hit" />
+	</resultMap>
+
+	<select id="selectAllNotice" resultMap="noticeResultMap">
+		<![CDATA[
+    		select * from noticeboard
+    	]]>
+	</select>
+
+	<select id="selectNotice" resultMap="noticeResultMap">
+		<![CDATA[
+    		select * from noticeboard where notice_id = #{id}
+    	]]>
+	</select>
+	
+	<insert id="insertNotice">
+    	<![CDATA[
+    		insert into noticeboard (notice_id, name, title, content, hit) 
+    		values (notice_seq.nextval, #{name}, #{title}, #{content}, 0)
+    	]]>
+	</insert>
+	
+	<update id="updateNotice">
+    	<![CDATA[
+    		update noticeboard set title = #{title}, content = #{content} where notice_id = #{notice_id}
+    	]]>
+	</update>
+	
+	<delete id="deleteNotice">
+    	<![CDATA[
+    		delete from noticeboard where notice_id = #{id}
+    	]]>
+	</delete>
+	
+	<!-- 위는 공지사항 게시판 아래는 리뷰게시판 -->
+	
+	<resultMap id="reviewResultMap" type="org.seongsu.stockproject.VO.reviewboardVO">
+		<id property="review_id" column="review_id" />
+		<result property="star" column="star" />
+		<result property="name" column="name" />
+		<result property="content" column="content" />
+		<result property="create_date" column="create_date" />
+		<result property="market_tour_code" column="market_tour_code" />
+	</resultMap>
+
+	<select id="selectAllReview" resultMap="reviewResultMap">
+		<![CDATA[
+    		select * from reviewboard where market_tour_code = #{code}
+    	]]>
+	</select>
+	
+	<select id="selectMyReview" resultMap="reviewResultMap">
+		<![CDATA[
+    		select * from reviewboard where name = #{id}
+    	]]>
+	</select>
+
+	<select id="selectReview" resultMap="reviewResultMap">
+		<![CDATA[
+    		select * from reviewboard where review_id = #{id}
+    	]]>
+	</select>
+	
+	<insert id="insertReview">
+    	<![CDATA[
+    		insert into reviewboard (review_id, star, name, content, market_tour_code) 
+    		values (review_seq.nextval, #{star}, #{name}, #{content}, #{market_tour_code})
+    	]]>
+	</insert>
+	
+	<update id="updateReview">
+    	<![CDATA[
+    		update reviewboard set star = #{star}, content = #{content} where review_id = #{review_id}
+    	]]>
+	</update>
+	
+	<delete id="deleteReview">
+    	<![CDATA[
+    		delete from reviewboard where review_id = #{id}
+    	]]>
+	</delete>
+</mapper>
